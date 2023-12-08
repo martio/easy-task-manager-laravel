@@ -134,11 +134,26 @@ ALTER SEQUENCE public.personal_access_tokens_id_seq OWNED BY public.personal_acc
 
 
 --
+-- Name: tasks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tasks (
+    id character(26) NOT NULL,
+    user_id character(26) NOT NULL,
+    title character varying(255) NOT NULL,
+    description text NOT NULL,
+    status character varying(255) NOT NULL,
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone
+);
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.users (
-    id bigint NOT NULL,
+    id character(26) NOT NULL,
     name character varying(255) NOT NULL,
     email character varying(255) NOT NULL,
     email_verified_at timestamp(0) without time zone,
@@ -147,25 +162,6 @@ CREATE TABLE public.users (
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone
 );
-
-
---
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.users_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
@@ -187,13 +183,6 @@ ALTER TABLE ONLY public.migrations ALTER COLUMN id SET DEFAULT nextval('public.m
 --
 
 ALTER TABLE ONLY public.personal_access_tokens ALTER COLUMN id SET DEFAULT nextval('public.personal_access_tokens_id_seq'::regclass);
-
-
---
--- Name: users id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
@@ -245,6 +234,14 @@ ALTER TABLE ONLY public.personal_access_tokens
 
 
 --
+-- Name: tasks tasks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT tasks_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_email_unique; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -265,6 +262,14 @@ ALTER TABLE ONLY public.users
 --
 
 CREATE INDEX personal_access_tokens_tokenable_type_tokenable_id_index ON public.personal_access_tokens USING btree (tokenable_type, tokenable_id);
+
+
+--
+-- Name: tasks tasks_user_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT tasks_user_id_foreign FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -298,6 +303,7 @@ COPY public.migrations (id, migration, batch) FROM stdin;
 2	2014_10_12_100000_create_password_reset_tokens_table	1
 3	2019_08_19_000000_create_failed_jobs_table	1
 4	2019_12_14_000001_create_personal_access_tokens_table	1
+5	2023_12_08_062947_create_tasks_table	1
 \.
 
 
@@ -305,7 +311,7 @@ COPY public.migrations (id, migration, batch) FROM stdin;
 -- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.migrations_id_seq', 4, true);
+SELECT pg_catalog.setval('public.migrations_id_seq', 5, true);
 
 
 --
