@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\User\CreateUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::name('api.')->group(callback: static function (): void {
+    Route::prefix('v1')->group(callback: static function (): void {
+        Route::post(uri: '/users', action: CreateUserController::class)->name(name: 'users.create');
+    });
 });

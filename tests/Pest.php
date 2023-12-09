@@ -1,5 +1,10 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Testing\TestResponse;
+use Pest\Expectation;
+use Tests\TestCase;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -11,10 +16,8 @@
 |
 */
 
-uses(
-    Tests\TestCase::class,
-    // Illuminate\Foundation\Testing\RefreshDatabase::class,
-)->in('Feature');
+// Uses the given test case and traits in the current folder recursively
+uses(TestCase::class, RefreshDatabase::class)->in(__DIR__);
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +30,29 @@ uses(
 |
 */
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
+// Feature
+expect()->extend(name: 'toBeResponsable', extend: function (): Expectation {
+    $this->toBeInstanceOf(class: TestResponse::class);
+
+    return $this;
+});
+
+expect()->extend(name: 'toBeSuccessful', extend: function (): Expectation {
+    $this->isSuccessful()->toBeTrue();
+
+    return $this;
+});
+
+expect()->extend(name: 'toHaveStatus', extend: function (int $expected): Expectation {
+    $this->getStatusCode()->toEqual(expected: $expected);
+
+    return $this;
+});
+
+expect()->extend(name: 'toHaveJsonContent', extend: function (): Expectation {
+    $this->getContent()->toBeJson();
+
+    return $this;
 });
 
 /*

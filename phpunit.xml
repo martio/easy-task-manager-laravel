@@ -14,26 +14,20 @@
     </testsuites>
     <source>
         <include>
-            <directory suffix=".php">./app/Http/Controllers</directory>
-            <directory suffix=".php">./app/Actions</directory>
+            <directory suffix=".php">./app/Http/Controllers/Api</directory>
+            <directory suffix=".php">./app/Commands</directory>
+            <directory suffix=".php">./app/Queries</directory>
+            <directory suffix=".php">./app/Repositories</directory>
         </include>
-        <exclude>
-            <directory suffix=".php">./app/Actions/Concerns</directory>
-        </exclude>
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
-        <env name="DB_DATABASE" value="sports_testing"/>
+        <env name="DB_DATABASE" value="tasks_testing"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
-        <env name="AWS_BUCKET" value="sports-testing"/>
-        <env name="PUSHER_APP_ID" value="app-id"/>
-        <env name="PUSHER_APP_KEY" value="app-key"/>
-        <env name="PUSHER_APP_SECRET" value="app-secret"/>
-        <env name="SCOUT_PREFIX" value="testing"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="RAY_ENABLED" value="true"/>
     </php>
