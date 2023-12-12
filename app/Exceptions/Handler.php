@@ -40,9 +40,6 @@ class Handler extends ExceptionHandler
                 return null;
             }
 
-            $status = SymfonyResponse::HTTP_INTERNAL_SERVER_ERROR;
-            $errors = [];
-
             if ($e instanceof NotFoundHttpException) {
                 $message = 'http_not_found';
                 $status = SymfonyResponse::HTTP_NOT_FOUND;
@@ -58,10 +55,7 @@ class Handler extends ExceptionHandler
                 $errors = $e->validator->errors()->messages();
             } else {
                 $message = 'unknown_error';
-
-                if ($e->getCode()) {
-                    $status = $e->getCode();
-                }
+                $status = SymfonyResponse::HTTP_INTERNAL_SERVER_ERROR;
             }
 
             $data = [
@@ -69,7 +63,7 @@ class Handler extends ExceptionHandler
                 'message' => $message,
             ];
 
-            if ( ! empty($errors)) {
+            if (isset($errors)) {
                 $data['errors'] = $errors;
             }
 

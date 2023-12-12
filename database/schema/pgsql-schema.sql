@@ -103,7 +103,7 @@ CREATE TABLE public.password_reset_tokens (
 CREATE TABLE public.personal_access_tokens (
     id bigint NOT NULL,
     tokenable_type character varying(255) NOT NULL,
-    tokenable_id bigint NOT NULL,
+    tokenable_id character(26) NOT NULL,
     name character varying(255) NOT NULL,
     token character varying(64) NOT NULL,
     abilities text,
