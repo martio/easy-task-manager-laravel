@@ -30,9 +30,9 @@ class TaskFactory extends Factory
             'title' => $this->faker->sentence(nbWords: 3),
             'description' => $this->faker->paragraph,
             'status' => $this->faker->randomElement(array: [
-                StatusEnum::Pending,
-                StatusEnum::InProgress,
-                StatusEnum::Completed,
+                StatusEnum::Pending->state(),
+                StatusEnum::InProgress->state(),
+                StatusEnum::Completed->state(),
             ]),
         ];
     }
@@ -43,7 +43,7 @@ class TaskFactory extends Factory
     public function pending(): static
     {
         return $this->state(state: fn (array $attributes): array => [
-            'status' => StatusEnum::Pending,
+            'status' => StatusEnum::Pending->state(),
         ]);
     }
 
@@ -53,7 +53,7 @@ class TaskFactory extends Factory
     public function inProgress(): static
     {
         return $this->state(state: fn (array $attributes): array => [
-            'status' => StatusEnum::InProgress,
+            'status' => StatusEnum::InProgress->state(),
         ]);
     }
 
@@ -63,7 +63,7 @@ class TaskFactory extends Factory
     public function completed(): static
     {
         return $this->state(state: fn (array $attributes): array => [
-            'status' => StatusEnum::Completed,
+            'status' => StatusEnum::Completed->state(),
         ]);
     }
 }

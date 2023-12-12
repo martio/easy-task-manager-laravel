@@ -7,45 +7,51 @@ namespace App\Models;
 use App\Enums\Task\StatusEnum;
 use App\Models\Builders\TaskBuilder;
 use App\Models\Collections\TaskCollection;
+use App\States\Task\Pending;
+use App\States\Task\TaskState;
+use Database\Factories\TaskFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 use Override;
+use Spatie\ModelStates\HasStates;
 
 /**
  * App\Models\Task
  *
- * @property string                          $id
- * @property string                          $user_id
- * @property string                          $title
- * @property string                          $description
- * @property StatusEnum                      $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User $user
+ * @property string      $id
+ * @property string      $user_id
+ * @property string      $title
+ * @property string      $description
+ * @property StatusEnum  $status
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read User $user
  *
- * @method static TaskCollection<int, static>     all($columns = ['*'])
- * @method static \Database\Factories\TaskFactory factory($count = null, $state = [])
- * @method static TaskCollection<int, static>     get($columns = ['*'])
- * @method static TaskBuilder|Task                newModelQuery()
- * @method static TaskBuilder|Task                newQuery()
- * @method static TaskBuilder|Task                ofStatus(\App\Enums\Task\StatusEnum $status)
- * @method static TaskBuilder|Task                query()
- * @method static TaskBuilder|Task                whereCreatedAt($value)
- * @method static TaskBuilder|Task                whereDescription($value)
- * @method static TaskBuilder|Task                whereId($value)
- * @method static TaskBuilder|Task                whereStatus($value)
- * @method static TaskBuilder|Task                whereTitle($value)
- * @method static TaskBuilder|Task                whereUpdatedAt($value)
- * @method static TaskBuilder|Task                whereUserId($value)
+ * @method static TaskCollection<int, static> all($columns = ['*'])
+ * @method static TaskFactory                 factory($count = null, $state = [])
+ * @method static TaskCollection<int, static> get($columns = ['*'])
+ * @method static TaskBuilder|Task            newModelQuery()
+ * @method static TaskBuilder|Task            newQuery()
+ * @method static TaskBuilder|Task            ofStatus(StatusEnum $status)
+ * @method static TaskBuilder|Task            query()
+ * @method static TaskBuilder|Task            whereCreatedAt($value)
+ * @method static TaskBuilder|Task            whereDescription($value)
+ * @method static TaskBuilder|Task            whereId($value)
+ * @method static TaskBuilder|Task            whereStatus($value)
+ * @method static TaskBuilder|Task            whereTitle($value)
+ * @method static TaskBuilder|Task            whereUpdatedAt($value)
+ * @method static TaskBuilder|Task            whereUserId($value)
  *
  * @mixin \Eloquent
  */
 class Task extends Model
 {
     use HasFactory;
+    use HasStates;
     use HasUlids;
 
     /**
@@ -83,7 +89,7 @@ class Task extends Model
      * @var array<string, class-string|string>
      */
     protected $casts = [
-        'status' => StatusEnum::class,
+        'status' => TaskState::class,
     ];
 
     /**
@@ -92,7 +98,7 @@ class Task extends Model
      * @var array<string, mixed>
      */
     protected $attributes = [
-        'status' => StatusEnum::Pending,
+        'status' => Pending::class,
     ];
 
     /**
@@ -106,7 +112,7 @@ class Task extends Model
     }
 
     /**
-     * Scope a query to only include clubs of the given status.
+     * Scope a query to only include tasks of the given status.
      *
      * @param TaskBuilder<Task> $query
      *
@@ -114,7 +120,7 @@ class Task extends Model
      */
     public function scopeOfStatus(TaskBuilder $query, StatusEnum $status): TaskBuilder
     {
-        return $query->where(column: 'status', operator: '=', value: $status);
+        return $query->where(column: 'status', operator: '=', value: $status->state());
     }
 
     /**

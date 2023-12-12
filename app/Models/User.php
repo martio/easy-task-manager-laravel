@@ -5,50 +5,58 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Builders\UserBuilder;
+use App\Models\Collections\TaskCollection;
 use App\Models\Collections\UserCollection;
+use Database\Factories\UserFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 use Override;
 
 /**
  * App\Models\User
  *
- * @property string                          $id
- * @property string                          $name
- * @property string                          $email
- * @property \Illuminate\Support\Carbon|null $email_verified_at
- * @property mixed                           $password
- * @property string|null                     $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property string      $id
+ * @property string      $name
+ * @property string      $email
+ * @property Carbon|null $email_verified_at
+ * @property mixed       $password
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \App\Models\Collections\TaskCollection<int, \App\Models\Task> $tasks
+ * @property-read TaskCollection<int, Task> $tasks
  * @property-read int|null $tasks_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  *
- * @method static UserCollection<int, static>     all($columns = ['*'])
- * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
- * @method static UserCollection<int, static>     get($columns = ['*'])
- * @method static UserBuilder|User                newModelQuery()
- * @method static UserBuilder|User                newQuery()
- * @method static UserBuilder|User                query()
- * @method static UserBuilder|User                whereCreatedAt($value)
- * @method static UserBuilder|User                whereEmail($value)
- * @method static UserBuilder|User                whereEmailVerifiedAt($value)
- * @method static UserBuilder|User                whereId($value)
- * @method static UserBuilder|User                whereName($value)
- * @method static UserBuilder|User                wherePassword($value)
- * @method static UserBuilder|User                whereRememberToken($value)
- * @method static UserBuilder|User                whereUpdatedAt($value)
+ * @method static UserCollection<int, static> all($columns = ['*'])
+ * @method static UserFactory                 factory($count = null, $state = [])
+ * @method static UserCollection<int, static> get($columns = ['*'])
+ * @method static UserBuilder|User            newModelQuery()
+ * @method static UserBuilder|User            newQuery()
+ * @method static UserBuilder|User            query()
+ * @method static UserBuilder|User            whereCreatedAt($value)
+ * @method static UserBuilder|User            whereEmail($value)
+ * @method static UserBuilder|User            whereEmailVerifiedAt($value)
+ * @method static UserBuilder|User            whereId($value)
+ * @method static UserBuilder|User            whereName($value)
+ * @method static UserBuilder|User            wherePassword($value)
+ * @method static UserBuilder|User            whereRememberToken($value)
+ * @method static UserBuilder|User            whereUpdatedAt($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class User extends Authenticatable
 {
