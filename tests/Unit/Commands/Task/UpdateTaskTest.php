@@ -6,6 +6,7 @@ use App\Commands\Task\UpdateTaskCommand;
 use App\Commands\Task\UpdateTaskHandler;
 use App\Enums\Task\StatusEnum;
 use App\Events\Task\TaskUpdatedEvent;
+use App\Exceptions\ResourceNotFoundException;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Facades\Event;
@@ -57,3 +58,18 @@ it(description: 'successfully executes the command handler', closure: function (
         event: fn (TaskUpdatedEvent $event): bool => $event->taskId === $task->id,
     );
 });
+
+it(description: 'unsuccessfully executes the command handler due to non-existent tasks', closure: function (): void {
+    $user = User::factory()
+        ->createQuietly();
+
+    ($this->handler)(
+        command: new UpdateTaskCommand(
+            taskId: 'test',
+            userId: $user->id,
+            title: 'Lorem ipsum dolor sit amet',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+            status: StatusEnum::Completed,
+        ),
+    );
+})->throws(exception: ResourceNotFoundException::class);

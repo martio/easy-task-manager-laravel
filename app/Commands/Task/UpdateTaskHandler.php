@@ -18,7 +18,7 @@ final readonly class UpdateTaskHandler
     }
 
     /**
-     * Execute the action.
+     * Execute the command.
      */
     public function __invoke(UpdateTaskCommand $command): void
     {

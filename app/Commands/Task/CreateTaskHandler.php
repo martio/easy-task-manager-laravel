@@ -20,7 +20,7 @@ final readonly class CreateTaskHandler
     }
 
     /**
-     * Execute the action.
+     * Execute the command.
      */
     public function __invoke(CreateTaskCommand $command): string
     {

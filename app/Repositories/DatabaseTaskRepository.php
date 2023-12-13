@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Data\DataCollection;
+use App\Data\Task\TaskData;
 use App\Enums\Task\StatusEnum;
 use App\Exceptions\ResourceNotFoundException;
 use App\Models\Task;
@@ -29,6 +31,32 @@ final readonly class DatabaseTaskRepository implements TaskRepository
             'description' => $description,
             'status' => $status->state(),
         ]);
+    }
+
+    /**
+     * Get the task by the given id.
+     */
+    public function get(string $id): TaskData
+    {
+        $model = Task::query()->find(id: $id);
+
+        if (is_null(value: $model)) {
+            throw new ResourceNotFoundException(type: 'task', column: 'id', value: $id);
+        }
+
+        return TaskData::fromModel(model: $model);
+    }
+
+    /**
+     * Get the all tasks.
+     *
+     * @return DataCollection<TaskData>
+     */
+    public function getAll(): DataCollection
+    {
+        $models = Task::query()->get()->all();
+
+        return TaskData::collection(items: $models);
     }
 
     /**

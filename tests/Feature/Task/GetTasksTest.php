@@ -9,8 +9,9 @@ it(description: 'returns a successful response', closure: function (): void {
     $user = User::factory()
         ->createQuietly();
 
-    $task = Task::factory()
+    $tasks = Task::factory()
         ->for(factory: $user)
+        ->count(count: 3)
         ->createQuietly();
 
     actingAs(user: $user);

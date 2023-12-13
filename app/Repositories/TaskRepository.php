@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Data\DataCollection;
+use App\Data\Task\TaskData;
 use App\Enums\Task\StatusEnum;
 
 interface TaskRepository
@@ -18,6 +20,18 @@ interface TaskRepository
         string $description,
         StatusEnum $status,
     ): void;
+
+    /**
+     * Get the task by the given id.
+     */
+    public function get(string $id): TaskData;
+
+    /**
+     * Get the all tasks.
+     *
+     * @return DataCollection<TaskData>
+     */
+    public function getAll(): DataCollection;
 
     /**
      * Update the task by the given id.

@@ -5,6 +5,7 @@ namespace Tests\Unit\Commands\Task;
 use App\Commands\Task\DeleteTaskCommand;
 use App\Commands\Task\DeleteTaskHandler;
 use App\Events\Task\TaskDeletedEvent;
+use App\Exceptions\ResourceNotFoundException;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Facades\Event;
@@ -40,3 +41,11 @@ it(description: 'successfully executes the command handler', closure: function (
         event: fn (TaskDeletedEvent $event): bool => $event->taskId === $task->id,
     );
 });
+
+it(description: 'unsuccessfully executes the command handler due to non-existent tasks', closure: function (): void {
+    ($this->handler)(
+        command: new DeleteTaskCommand(
+            taskId: 'test',
+        ),
+    );
+})->throws(exception: ResourceNotFoundException::class);

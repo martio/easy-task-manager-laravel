@@ -18,7 +18,7 @@ final readonly class DeleteTaskHandler
     }
 
     /**
-     * Execute the action.
+     * Execute the command.
      */
     public function __invoke(DeleteTaskCommand $command): void
     {
