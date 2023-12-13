@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Helpers\UidHelper;
+use App\Repositories\DatabaseTaskRepository;
 use App\Repositories\DatabaseUserRepository;
+use App\Repositories\TaskRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
@@ -20,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(abstract: 'uid', concrete: UidHelper::class);
 
         $this->app->bind(abstract: UserRepository::class, concrete: DatabaseUserRepository::class);
+        $this->app->bind(abstract: TaskRepository::class, concrete: DatabaseTaskRepository::class);
     }
 
     /**

@@ -534,7 +534,7 @@
 							"_postman_previewlanguage": "json",
 							"header": [],
 							"cookie": [],
-							"body": "{\n    \"status\": \"success\",\n    \"data\": []\n}"
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"id\": \"01hhh7ve3g5gvwsnttf11ytvad\"\n    }\n}"
 						},
 						{
 							"name": "Failure",

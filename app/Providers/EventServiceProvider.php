@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\Task\TaskCreatedEvent;
 use App\Events\User\UserCreatedEvent;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -14,6 +15,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         UserCreatedEvent::class => [
+        ],
+        TaskCreatedEvent::class => [
         ],
     ];
 

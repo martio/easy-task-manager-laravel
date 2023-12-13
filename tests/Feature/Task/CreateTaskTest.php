@@ -2,9 +2,15 @@
 
 namespace Tests\Feature\Task;
 
+use App\Events\Task\TaskCreatedEvent;
 use App\Models\User;
+use Illuminate\Support\Facades\Event;
 
 it(description: 'returns a successful response', closure: function (): void {
+    Event::fake(eventsToFake: [
+        TaskCreatedEvent::class,
+    ]);
+
     $user = User::factory()
         ->createQuietly();
 
@@ -23,4 +29,6 @@ it(description: 'returns a successful response', closure: function (): void {
         ->toBeResponsable()
         ->toBeSuccessful()
         ->toHaveJsonContent();
+
+    Event::assertDispatched(event: TaskCreatedEvent::class);
 });
