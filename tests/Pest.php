@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
+use Laravel\Sanctum\Sanctum;
 use Pest\Expectation;
 use Tests\TestCase;
 
@@ -66,7 +68,12 @@ expect()->extend(name: 'toHaveJsonContent', extend: function (): Expectation {
 |
 */
 
-function something(): void
+/**
+ * Set the current user for the application with the given abilities.
+ */
+function actingAs(User $user, array $abilities = ['*'], ?string $guard = null): mixed
 {
-    // ..
+    Sanctum::actingAs(user: $user, abilities: $abilities, guard: $guard);
+
+    return test();
 }
