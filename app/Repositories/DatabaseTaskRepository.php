@@ -56,7 +56,10 @@ final readonly class DatabaseTaskRepository implements TaskRepository
     {
         $models = Task::query()->get()->all();
 
-        return TaskData::collection(items: $models);
+        /** @var DataCollection<TaskData> $collection */
+        $collection = TaskData::collection(items: $models);
+
+        return $collection;
     }
 
     /**

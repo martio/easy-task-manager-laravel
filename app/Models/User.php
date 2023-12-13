@@ -28,6 +28,7 @@ use Override;
  * App\Models\User
  *
  * @property string      $id
+ * @property string|null $external_id
  * @property string      $name
  * @property string      $email
  * @property Carbon|null $email_verified_at
@@ -51,6 +52,7 @@ use Override;
  * @method static UserBuilder|User            whereCreatedAt($value)
  * @method static UserBuilder|User            whereEmail($value)
  * @method static UserBuilder|User            whereEmailVerifiedAt($value)
+ * @method static UserBuilder|User            whereExternalId($value)
  * @method static UserBuilder|User            whereId($value)
  * @method static UserBuilder|User            whereName($value)
  * @method static UserBuilder|User            wherePassword($value)
@@ -73,6 +75,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'id',
+        'external_id',
         'name',
         'email',
         'password',

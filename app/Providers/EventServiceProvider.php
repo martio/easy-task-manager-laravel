@@ -6,6 +6,7 @@ use App\Events\Task\TaskCreatedEvent;
 use App\Events\Task\TaskDeletedEvent;
 use App\Events\Task\TaskUpdatedEvent;
 use App\Events\User\UserCreatedEvent;
+use App\Events\User\UserImportedEvent;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -17,6 +18,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         UserCreatedEvent::class => [
+        ],
+        UserImportedEvent::class => [
         ],
         TaskCreatedEvent::class => [
         ],

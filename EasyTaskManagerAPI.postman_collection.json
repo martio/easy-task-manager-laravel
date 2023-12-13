@@ -126,6 +126,8 @@
 											]
 										}
 									},
+									"status": "OK",
+									"code": 200,
 									"_postman_previewlanguage": "json",
 									"header": [],
 									"cookie": [],
@@ -341,6 +343,8 @@
 									]
 								}
 							},
+							"status": "Created",
+							"code": 201,
 							"_postman_previewlanguage": "json",
 							"header": [],
 							"cookie": [],
@@ -419,6 +423,117 @@
 							"header": [],
 							"cookie": [],
 							"body": "{\n    \"status\": \"failure\",\n    \"message\": \"invalid_data\",\n    \"errors\": {\n        \"name\": [\n            \"The name field is required.\"\n        ],\n        \"email\": [\n            \"The email field is required.\"\n        ],\n        \"password\": [\n            \"The password field is required.\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Import user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is 201\", () => {",
+									"  pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "external_id",
+									"value": "test",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users/import",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"import"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "external_id",
+											"value": "test",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/users/import",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"import"
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\"\n}"
+						},
+						{
+							"name": "Invalid data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/users/import",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"import"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\",\n    \"message\": \"invalid_data\",\n    \"errors\": {\n        \"external_id\": [\n            \"The external id field is required.\"\n        ]\n    }\n}"
 						}
 					]
 				}
@@ -531,6 +646,8 @@
 									]
 								}
 							},
+							"status": "Created",
+							"code": 201,
 							"_postman_previewlanguage": "json",
 							"header": [],
 							"cookie": [],
@@ -708,6 +825,8 @@
 									]
 								}
 							},
+							"status": "OK",
+							"code": 200,
 							"_postman_previewlanguage": "json",
 							"header": [],
 							"cookie": [],
@@ -837,6 +956,8 @@
 									]
 								}
 							},
+							"status": "OK",
+							"code": 200,
 							"_postman_previewlanguage": "json",
 							"header": [],
 							"cookie": [],
@@ -1030,6 +1151,8 @@
 									]
 								}
 							},
+							"status": "OK",
+							"code": 200,
 							"_postman_previewlanguage": "json",
 							"header": [],
 							"cookie": [],
@@ -1252,6 +1375,8 @@
 									]
 								}
 							},
+							"status": "No Content",
+							"code": 204,
 							"_postman_previewlanguage": "json",
 							"header": [],
 							"cookie": [],

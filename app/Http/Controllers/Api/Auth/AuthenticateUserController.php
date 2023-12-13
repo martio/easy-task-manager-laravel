@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\Auth\AuthenticateUserRequest;
-use App\Services\AuthenticationService;
+use App\Services\User\AuthenticationService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 

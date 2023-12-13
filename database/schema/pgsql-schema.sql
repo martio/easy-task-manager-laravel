@@ -160,7 +160,8 @@ CREATE TABLE public.users (
     password character varying(255) NOT NULL,
     remember_token character varying(100),
     created_at timestamp(0) without time zone,
-    updated_at timestamp(0) without time zone
+    updated_at timestamp(0) without time zone,
+    external_id character varying(255)
 );
 
 
@@ -304,6 +305,7 @@ COPY public.migrations (id, migration, batch) FROM stdin;
 3	2019_08_19_000000_create_failed_jobs_table	1
 4	2019_12_14_000001_create_personal_access_tokens_table	1
 5	2023_12_08_062947_create_tasks_table	1
+6	2023_12_12_000000_add_external_id_to_users_table	1
 \.
 
 
@@ -311,7 +313,7 @@ COPY public.migrations (id, migration, batch) FROM stdin;
 -- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.migrations_id_seq', 5, true);
+SELECT pg_catalog.setval('public.migrations_id_seq', 6, true);
 
 
 --

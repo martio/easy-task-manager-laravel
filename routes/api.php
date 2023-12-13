@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Task\GetTaskController;
 use App\Http\Controllers\Api\Task\GetTasksController;
 use App\Http\Controllers\Api\Task\UpdateTaskController;
 use App\Http\Controllers\Api\User\CreateUserController;
+use App\Http\Controllers\Api\User\ImportUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,7 @@ Route::name('api.')->group(callback: static function (): void {
     Route::prefix('v1')->group(callback: static function (): void {
         Route::post(uri: '/auth/login', action: AuthenticateUserController::class)->name(name: 'authentication.login');
         Route::post(uri: '/users', action: CreateUserController::class)->name(name: 'users.create');
+        Route::post(uri: '/users/import', action: ImportUserController::class)->name(name: 'users.import');
 
         Route::middleware(['auth:sanctum', 'verified'])->group(callback: static function (): void {
             Route::post(uri: '/tasks', action: CreateTaskController::class)->name(name: 'tasks.create');

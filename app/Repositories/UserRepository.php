@@ -9,5 +9,11 @@ interface UserRepository
     /**
      * Create a new user.
      */
-    public function create(string $id, string $name, string $email, string $password): void;
+    public function create(
+        string $id,
+        string $name,
+        string $email,
+        string $password,
+        ?string $externalId = null,
+    ): void;
 }

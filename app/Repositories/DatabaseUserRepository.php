@@ -16,11 +16,23 @@ final readonly class DatabaseUserRepository implements UserRepository
      *
      * @throws Throwable
      */
-    public function create(string $id, string $name, string $email, string $password): void
-    {
-        DB::transaction(callback: function () use ($id, $name, $email, $password): void {
+    public function create(
+        string $id,
+        string $name,
+        string $email,
+        string $password,
+        ?string $externalId = null,
+    ): void {
+        DB::transaction(callback: function () use (
+            $id,
+            $name,
+            $email,
+            $password,
+            $externalId,
+        ): void {
             $user = User::query()->create(attributes: [
                 'id' => $id,
+                'external_id' => $externalId,
                 'name' => $name,
                 'email' => $email,
                 'password' => Hash::make(value: $password),

@@ -55,13 +55,16 @@ final class TaskData extends Data
         /** @var TaskState $status */
         $status = $model->status;
 
+        /** @var Carbon $createdAt */
+        $createdAt = $model->created_at;
+
         return new TaskData(
             id: $model->id,
             userId: $model->user_id,
             title: $model->title,
             description: $model->description,
             status: $status->status(),
-            createdAt: $model->created_at,
+            createdAt: $createdAt,
         );
     }
 }
