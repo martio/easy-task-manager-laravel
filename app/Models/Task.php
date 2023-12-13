@@ -10,6 +10,7 @@ use App\Models\Collections\TaskCollection;
 use App\States\Task\Pending;
 use App\States\Task\TaskState;
 use Database\Factories\TaskFactory;
+use Eloquent;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -46,7 +47,7 @@ use Spatie\ModelStates\HasStates;
  * @method static TaskBuilder|Task            whereUpdatedAt($value)
  * @method static TaskBuilder|Task            whereUserId($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Task extends Model
 {

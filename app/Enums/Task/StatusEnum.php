@@ -15,7 +15,7 @@ enum StatusEnum: string
     use Equalable;
 
     case Pending = 'pending';
-    case InProgress = 'in progress';
+    case InProgress = 'in_progress';
     case Completed = 'completed';
 
     /**

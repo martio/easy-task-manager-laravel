@@ -12,6 +12,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -105,6 +106,18 @@ class User extends Authenticatable
     public function tasks(): HasMany
     {
         return $this->hasMany(related: Task::class);
+    }
+
+    /**
+     * Determine whether the user is the owner of the given model.
+     */
+    public function isOwnerOf(Model $model): bool
+    {
+        if ( ! array_key_exists(key: 'user_id', array: $model->getAttributes())) {
+            return false;
+        }
+
+        return $model->getAttribute(key: 'user_id') === $this->getAttribute(key: 'id');
     }
 
     /**

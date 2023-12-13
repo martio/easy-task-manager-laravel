@@ -1,0 +1,1365 @@
+{
+	"info": {
+		"_postman_id": "63c52953-7401-4ac0-b6a1-ad474ee21103",
+		"name": "Easy Task Manager API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2507092"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "authentication",
+					"item": [
+						{
+							"name": "Login user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"The status code is 200\", () => {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The response has all properties\", () => {",
+											"    const responseJson = pm.response.json();",
+											"    pm.expect(responseJson.status).to.eql(\"success\");",
+											"    pm.expect(responseJson.data.token).to.be.a(\"string\");",
+											"    pm.expect(responseJson.data.token).to.have.lengthOf(43);",
+											"});",
+											"",
+											"const responseJson = pm.response.json();",
+											"pm.collectionVariables.set(\"token\", responseJson.data.token);",
+											"",
+											"console.log(\"Token\", responseJson.data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept-Language",
+										"value": "en",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "{{email}}",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "{{password}}",
+											"type": "default"
+										},
+										{
+											"key": "device",
+											"value": "postman",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "email",
+													"value": "marcin.martio.lewandowski@gmail.com",
+													"type": "default"
+												},
+												{
+													"key": "password",
+													"value": "123$TesT$321",
+													"type": "default"
+												},
+												{
+													"key": "device",
+													"value": "postman",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"token\": \"1|CTLtRplnQQIXOW70W6WJEgo0W5qKaADQd7hZbUzWbeef1c72\"\n    }\n}"
+								},
+								{
+									"name": "Incorrect login",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "email",
+													"value": "anonymous@gmail.com",
+													"type": "default"
+												},
+												{
+													"key": "password",
+													"value": "123$TesT$321",
+													"type": "default"
+												},
+												{
+													"key": "device",
+													"value": "postman",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n    \"status\": \"failure\",\n    \"message\": \"incorrect-credentials\"\n}"
+								},
+								{
+									"name": "Incorrect password",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "email",
+													"value": "marcin.martio.lewandowski@gmail.com",
+													"type": "default"
+												},
+												{
+													"key": "password",
+													"value": "unknown",
+													"type": "default"
+												},
+												{
+													"key": "device",
+													"value": "postman",
+													"type": "default"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n    \"status\": \"failure\",\n    \"message\": \"incorrect-credentials\"\n}"
+								},
+								{
+									"name": "Invalid data",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": [],
+									"cookie": [],
+									"body": "{\n    \"status\": \"failure\",\n    \"message\": \"invalid_data\",\n    \"errors\": {\n        \"email\": [\n            \"The email field is required.\"\n        ],\n        \"password\": [\n            \"The password field is required.\"\n        ]\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is 201\", () => {",
+									"  pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "user",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "user@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "123$TesT$321",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "user",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "user@gmail.com",
+											"type": "default"
+										},
+										{
+											"key": "password",
+											"value": "123$TesT$321",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": {\n        \"id\": \"01hhh4gyk8hk9hdhf8kgmgw7dk\"\n    }\n}"
+						},
+						{
+							"name": "Failure",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "user",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "user@sportsmanagerpro.com",
+											"type": "default"
+										},
+										{
+											"key": "password",
+											"value": "P@$$Word123",
+											"type": "default"
+										},
+										{
+											"key": "locale",
+											"value": "en",
+											"type": "default"
+										},
+										{
+											"key": "terms",
+											"value": "true",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\"\n}"
+						},
+						{
+							"name": "Invalid data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\",\n    \"message\": \"invalid_data\",\n    \"errors\": {\n        \"name\": [\n            \"The name field is required.\"\n        ],\n        \"email\": [\n            \"The email field is required.\"\n        ],\n        \"password\": [\n            \"The password field is required.\"\n        ]\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "Create task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is 201\", () => {",
+									"  pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_id",
+									"value": "01hhfvr3xey1ppjqftjfytf1gq",
+									"type": "default"
+								},
+								{
+									"key": "title",
+									"value": "Lorem ipsum dolor sit amet",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tasks"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "user_id",
+											"value": "01hhfvr3xey1ppjqftjfytf1gq",
+											"type": "default"
+										},
+										{
+											"key": "title",
+											"value": "Lorem ipsum dolor sit amet",
+											"type": "default"
+										},
+										{
+											"key": "description",
+											"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": []\n}"
+						},
+						{
+							"name": "Failure",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "user_id",
+											"value": "01hhfvr3xey1ppjqftjfytf1gq",
+											"type": "default"
+										},
+										{
+											"key": "title",
+											"value": "Lorem ipsum dolor sit amet",
+											"type": "default"
+										},
+										{
+											"key": "description",
+											"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\"\n}"
+						},
+						{
+							"name": "Invalid data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\",\n    \"message\": \"invalid_data\",\n    \"errors\": {\n        \"user_id\": [\n            \"The user id field is required.\"\n        ],\n        \"title\": [\n            \"The title field is required.\"\n        ],\n        \"description\": [\n            \"The description field is required.\"\n        ]\n    }\n}"
+						},
+						{
+							"name": "Unauthenticated",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "user_id",
+											"value": "01hhfvr3xey1ppjqftjfytf1gq",
+											"type": "default"
+										},
+										{
+											"key": "title",
+											"value": "Lorem ipsum dolor sit amet",
+											"type": "default"
+										},
+										{
+											"key": "description",
+											"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\",\n    \"message\": \"unauthenticated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is 200\", () => {",
+									"  pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tasks"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": []\n}"
+						},
+						{
+							"name": "Failure",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\"\n}"
+						},
+						{
+							"name": "Unauthenticated",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\",\n    \"message\": \"unauthenticated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get task by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is 200\", () => {",
+									"  pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/tasks/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"data\": []\n}"
+						},
+						{
+							"name": "Failure",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\"\n}"
+						},
+						{
+							"name": "Unauthenticated",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\",\n    \"message\": \"unauthenticated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update task by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is 201\", () => {",
+									"  pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_id",
+									"value": "01hhfvr3xey1ppjqftjfytf1gq",
+									"type": "default"
+								},
+								{
+									"key": "title",
+									"value": "Lorem ipsum dolor sit amet",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+									"type": "default"
+								},
+								{
+									"key": "status",
+									"value": "in_progress",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/tasks/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "user_id",
+											"value": "01hhfvr3xey1ppjqftjfytf1gq",
+											"type": "default"
+										},
+										{
+											"key": "title",
+											"value": "Lorem ipsum dolor sit amet",
+											"type": "default"
+										},
+										{
+											"key": "description",
+											"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+											"type": "default"
+										},
+										{
+											"key": "status",
+											"value": "in_progress",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\"\n}"
+						},
+						{
+							"name": "Failure",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "user_id",
+											"value": "01hhfvr3xey1ppjqftjfytf1gq",
+											"type": "default"
+										},
+										{
+											"key": "title",
+											"value": "Lorem ipsum dolor sit amet",
+											"type": "default"
+										},
+										{
+											"key": "description",
+											"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+											"type": "default"
+										},
+										{
+											"key": "status",
+											"value": "in_progress",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\"\n}"
+						},
+						{
+							"name": "Invalid data",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\",\n    \"message\": \"invalid_data\",\n    \"errors\": {\n        \"user_id\": [\n            \"The user id field is required.\"\n        ],\n        \"title\": [\n            \"The title field is required.\"\n        ],\n        \"description\": [\n            \"The description field is required.\"\n        ],\n        \"status\": [\n            \"The status field is required.\"\n        ]\n    }\n}"
+						},
+						{
+							"name": "Unauthenticated",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "user_id",
+											"value": "01hhfvr3xey1ppjqftjfytf1gq",
+											"type": "default"
+										},
+										{
+											"key": "title",
+											"value": "Lorem ipsum dolor sit amet",
+											"type": "default"
+										},
+										{
+											"key": "description",
+											"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+											"type": "default"
+										},
+										{
+											"key": "status",
+											"value": "in_progress",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\",\n    \"message\": \"unauthenticated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete task by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is 200\", () => {",
+									"  pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/tasks/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Failure",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\"\n}"
+						},
+						{
+							"name": "Unauthenticated",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/tasks/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tasks",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "01hhfvxrbxgcgzv055xpmsyh8y"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failure\",\n    \"message\": \"unauthenticated\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost",
+			"type": "default"
+		},
+		{
+			"key": "token",
+			"value": "{{token}}",
+			"type": "default"
+		},
+		{
+			"key": "email",
+			"value": "marcin.martio.lewandowski@gmail.com",
+			"type": "default"
+		},
+		{
+			"key": "password",
+			"value": "123$TesT$321",
+			"type": "default"
+		}
+	]
+}
