@@ -18,4 +18,9 @@ interface TaskRepository
         string $description,
         StatusEnum $status,
     ): void;
+
+    /**
+     * Delete the task by the given id.
+     */
+    public function delete(string $id): void;
 }

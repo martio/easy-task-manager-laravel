@@ -31,5 +31,12 @@ it(description: 'successfully executes the command handler', closure: function (
     expect(value: $result)
         ->toBeString();
 
+    $this->assertDatabaseCount(table: 'tasks', count: 1);
+    $this->assertDatabaseHas(table: 'tasks', data: [
+        'user_id' => $user->id,
+        'title' => 'Lorem ipsum dolor sit amet',
+        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    ]);
+
     Event::assertDispatched(event: TaskCreatedEvent::class);
 });

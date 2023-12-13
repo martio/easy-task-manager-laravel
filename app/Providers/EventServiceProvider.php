@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\Task\TaskCreatedEvent;
+use App\Events\Task\TaskDeletedEvent;
 use App\Events\User\UserCreatedEvent;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -17,6 +18,8 @@ class EventServiceProvider extends ServiceProvider
         UserCreatedEvent::class => [
         ],
         TaskCreatedEvent::class => [
+        ],
+        TaskDeletedEvent::class => [
         ],
     ];
 

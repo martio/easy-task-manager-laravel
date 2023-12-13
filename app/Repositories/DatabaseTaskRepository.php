@@ -27,4 +27,14 @@ final readonly class DatabaseTaskRepository implements TaskRepository
             'status' => $status->state(),
         ]);
     }
+
+    /**
+     * Delete the task by the given id.
+     */
+    public function delete(string $id): void
+    {
+        Task::query()
+            ->where(column: 'id', operator: '=', value: $id)
+            ->delete();
+    }
 }
