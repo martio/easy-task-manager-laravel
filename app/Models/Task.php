@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Enums\Task\StatusEnum;
 use App\Models\Builders\TaskBuilder;
 use App\Models\Collections\TaskCollection;
-use App\States\Task\Pending;
 use App\States\Task\TaskState;
 use Database\Factories\TaskFactory;
 use Eloquent;
@@ -99,7 +98,6 @@ class Task extends Model
      * @var array<string, mixed>
      */
     protected $attributes = [
-        'status' => Pending::class,
     ];
 
     /**

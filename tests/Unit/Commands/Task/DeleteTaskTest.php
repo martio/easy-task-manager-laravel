@@ -36,5 +36,7 @@ it(description: 'successfully executes the command handler', closure: function (
 
     $this->assertDatabaseCount(table: 'tasks', count: 0);
 
-    Event::assertDispatched(event: TaskDeletedEvent::class);
+    Event::assertDispatched(
+        event: fn (TaskDeletedEvent $event): bool => $event->taskId === $task->id,
+    );
 });

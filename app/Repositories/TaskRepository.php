@@ -20,6 +20,17 @@ interface TaskRepository
     ): void;
 
     /**
+     * Update the task by the given id.
+     */
+    public function update(
+        string $id,
+        string $userId,
+        string $title,
+        string $description,
+        StatusEnum $status,
+    ): void;
+
+    /**
      * Delete the task by the given id.
      */
     public function delete(string $id): void;

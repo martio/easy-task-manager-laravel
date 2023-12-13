@@ -3,10 +3,16 @@
 namespace Tests\Feature\Task;
 
 use App\Enums\Task\StatusEnum;
+use App\Events\Task\TaskUpdatedEvent;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Support\Facades\Event;
 
 it(description: 'returns a successful response', closure: function (): void {
+    Event::fake(eventsToFake: [
+        TaskUpdatedEvent::class,
+    ]);
+
     $user = User::factory()
         ->createQuietly();
 
@@ -33,4 +39,8 @@ it(description: 'returns a successful response', closure: function (): void {
         ->toBeResponsable()
         ->toBeSuccessful()
         ->toHaveJsonContent();
+
+    Event::assertDispatched(
+        event: fn (TaskUpdatedEvent $event): bool => $event->taskId === $task->id,
+    );
 });

@@ -32,5 +32,7 @@ it(description: 'returns a successful response', closure: function (): void {
         ->toBeSuccessful()
         ->toHaveStatus(expected: 204);
 
-    Event::assertDispatched(event: TaskDeletedEvent::class);
+    Event::assertDispatched(
+        event: fn (TaskDeletedEvent $event): bool => $event->taskId === $task->id,
+    );
 });

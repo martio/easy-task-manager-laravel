@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Enums\Task\StatusEnum;
+use App\Exceptions\ResourceNotFoundException;
 use App\Models\Task;
+use App\States\Task\TaskState;
+use Illuminate\Support\Facades\DB;
 
 final readonly class DatabaseTaskRepository implements TaskRepository
 {
@@ -29,12 +32,54 @@ final readonly class DatabaseTaskRepository implements TaskRepository
     }
 
     /**
+     * Update the task by the given id.
+     */
+    public function update(
+        string $id,
+        string $userId,
+        string $title,
+        string $description,
+        StatusEnum $status,
+    ): void {
+        $model = Task::query()->find(id: $id);
+
+        if (is_null(value: $model)) {
+            throw new ResourceNotFoundException(type: 'task', column: 'id', value: $id);
+        }
+
+        DB::transaction(callback: function () use (
+            $model,
+            $userId,
+            $title,
+            $description,
+            $status,
+        ): void {
+            $model->update(attributes: [
+                'user_id' => $userId,
+                'title' => $title,
+                'description' => $description,
+            ]);
+
+            /** @var TaskState $currentStatus */
+            $currentStatus = $model->status;
+
+            if ($currentStatus->canTransitionTo(newState: $status->state())) {
+                $currentStatus->transitionTo(newState: $status->state());
+            }
+        });
+    }
+
+    /**
      * Delete the task by the given id.
      */
     public function delete(string $id): void
     {
-        Task::query()
-            ->where(column: 'id', operator: '=', value: $id)
-            ->delete();
+        $model = Task::query()->find(id: $id);
+
+        if (is_null(value: $model)) {
+            throw new ResourceNotFoundException(type: 'task', column: 'id', value: $id);
+        }
+
+        $model->delete();
     }
 }
